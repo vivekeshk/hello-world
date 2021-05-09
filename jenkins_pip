@@ -4,8 +4,12 @@ pipeline{
         stage("git check"){
             steps{
                 git credentialsId: 'git_id', url: 'https://github.com/sasigowda/hello-world'
+            }           
+        }
+        stage("maven build"){
+            steps{
+                sh "mvn clean package"
             }
-            
         }
     }
 }
