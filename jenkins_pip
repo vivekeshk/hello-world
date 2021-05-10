@@ -44,6 +44,12 @@ pipeline{
             steps{
                 sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'cd ~/home/ansible;ansible-playbook container_create.yml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
             }
-        }   
+        }
+
+        stage("email notification"){
+            steps{
+                mail bcc: '', body: 'The job is executed successfully', cc: 'sasigowda152@gmail.com', from: '', replyTo: '', subject: 'jenkins job success', to: 'sasidharan.21.2.1991@gmail.com'
+            }
+        }
     }
 }
