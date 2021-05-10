@@ -48,7 +48,7 @@ pipeline{
 
         stage("email notification"){
             steps{
-                mail bcc: '', body: 'The job is executed successfully', cc: 'sasigowda152@gmail.com', from: '', replyTo: '', subject: 'jenkins job success', to: 'sasidharan.21.2.1991@gmail.com'
+                emailext body: '${currentBuild.currentResult} : Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \\n More info at : ${env.BUILD_URL}', subject: 'Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}', to: 'prasadforplaystore@gmail.com'
             }
         }
     }
