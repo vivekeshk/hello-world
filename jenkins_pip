@@ -1,7 +1,7 @@
 currentBuild.displayName = "simplejob-#"+currentBuild.number
 pipeline{
     agent any
-
+    options { skipDefaultCheckout() }
     environment{
         PATH ="/opt/maven/bin:$PATH"
     }
