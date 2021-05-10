@@ -16,7 +16,7 @@ pipeline{
                 sh "mvn clean package"
             }
         }
-        stage("deploy to dev"){
+        stage("deploy to tomcat dev server"){
             steps{
                  sshagent(['tomcat_deploy']) {
                 sh """
@@ -37,6 +37,12 @@ pipeline{
         stage("building docker images"){
             steps{
                 sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'cd ~/home/ansible;ansible-playbook docker_build.yml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+            }
+        }
+
+        stage("deploying docker container using custom hub image"){
+            steps{
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'ansible', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'cd ~/home/ansible;ansible-playbook container_create.yml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
             }
         }   
     }
